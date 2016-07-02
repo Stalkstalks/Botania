@@ -2291,24 +2291,42 @@ public final class ModCraftingRecipes {
 	}
 
 	private static void addStairsAndSlabs(Block block, int meta, Block stairs, Block slab) {
-		GameRegistry.addRecipe(new ItemStack(slab, 6),
-				"QQQ",
-				'Q', new ItemStack(block, 1, meta));
+		if(ConfigHandler.stairsEnabled) {
+			addStairs(block,meta,stairs);
+		}
+
+		if(ConfigHandler.slabsEnabled) {		
+			addSlabs(block,meta,slab);
+		}
+	}
+	
+	private static void addStairs(Block block, int meta, Block stairs) {
 		GameRegistry.addRecipe(new ItemStack(stairs, 4),
-				"  Q", " QQ", "QQQ",
-				'Q', new ItemStack(block, 1, meta));
+			"  Q", " QQ", "QQQ",
+			'Q', new ItemStack(block, 1, meta));
 		GameRegistry.addRecipe(new ItemStack(stairs, 4),
-				"Q  ", "QQ ", "QQQ",
-				'Q', new ItemStack(block, 1, meta));
-		GameRegistry.addRecipe(new ItemStack(block, 1, meta),
-				"Q", "Q",
-				'Q', new ItemStack(slab));
+			"Q  ", "QQ ", "QQQ",
+			'Q', new ItemStack(block, 1, meta));
 	}
 
+	private static void addSlabs(Block block, int meta, Block slab) {
+		GameRegistry.addRecipe(new ItemStack(slab, 6),
+			"QQQ",
+			'Q', new ItemStack(block, 1, meta));
+		GameRegistry.addRecipe(new ItemStack(block, 1, meta),
+			"Q", "Q",
+			'Q', new ItemStack(slab));
+	}
+	
+	
+	
+	
 	private static void addWall(Block block, int blockMeta, Block wall, int wallMeta) {
-		GameRegistry.addRecipe(new ItemStack(wall, 6, wallMeta),
+		if(ConfigHandler.wallsEnabled) {
+			GameRegistry.addRecipe(new ItemStack(wall, 6, wallMeta),
 				"BBB", "BBB",
 				'B', new ItemStack(block, 1, blockMeta));
+		}
 	}
 
 	private static void addPane(Block block, Block pane) {
@@ -2324,9 +2342,11 @@ public final class ModCraftingRecipes {
 		GameRegistry.addRecipe(new ItemStack(block, 2, 2),
 				"Q", "Q",
 				'Q', block);
-		GameRegistry.addRecipe(new ItemStack(block, 1, 1),
+		if(ConfigHandler.slabsEnabled) {
+			GameRegistry.addRecipe(new ItemStack(block, 1, 1),
 				"Q", "Q",
 				'Q', slab);
+		}
 		addStairsAndSlabs(block, 0, stairs, slab);
 
 		if(req != null) {

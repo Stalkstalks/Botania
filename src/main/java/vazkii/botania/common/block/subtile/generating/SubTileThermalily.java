@@ -13,6 +13,7 @@ package vazkii.botania.common.block.subtile.generating;
 import net.minecraft.block.material.Material;
 import vazkii.botania.api.lexicon.LexiconEntry;
 import vazkii.botania.common.Botania;
+import vazkii.botania.common.core.handler.ConfigHandler;
 import vazkii.botania.common.lexicon.LexiconData;
 
 public class SubTileThermalily extends SubTileHydroangeas {
@@ -69,7 +70,7 @@ public class SubTileThermalily extends SubTileHydroangeas {
 
 	@Override
 	public int getCooldown() {
-		return 6000;
+		return ConfigHandler.thermalilyCooldown;
 	}
 
 }

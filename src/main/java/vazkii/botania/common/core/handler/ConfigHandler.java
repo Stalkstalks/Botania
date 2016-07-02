@@ -109,7 +109,25 @@ public final class ConfigHandler {
 	public static int potionIDBloodthirst = 94;
 	public static int potionIDAllure = 95;
 	public static int potionIDClear = 96;
-
+	
+	public static boolean stairsEnabled = true;
+	public static boolean slabsEnabled = true;
+	public static boolean wallsEnabled = true;
+	
+	public static boolean minMaxEnabled = true;
+	
+	public static int endoflameFuelCap = -1;
+	public static int thermalilyCooldown = 6000;
+	public static int hydroangeaCooldown = 0;
+	public static boolean hydroThermaCooldownWait = false;
+	
+	public static boolean gaiaMusicEnabled = true;
+	
+	public static boolean flugelTiaraUnlimited = false;
+	public static int flugelTiaraCost = 35;
+	public static int flugelTiaraMaxFlyTime = 1200;
+	public static int flugelTiaraDashDelay = 80;
+	
 	public static void loadConfig(File configFile) {
 		config = new Configuration(configFile);
 
@@ -284,7 +302,47 @@ public final class ConfigHandler {
 
 		desc = "The quantity of Botania mushrooms to generate underground, in the world, defaults to 40, the lower the number the less patches generate.";
 		mushroomQuantity = loadPropInt("worldgen.mushroom.quantity", desc, mushroomQuantity);
-
+		
+		desc = "Set this to false to disable all stairs";
+		stairsEnabled = loadPropBool("stairs.enabled", desc, stairsEnabled);
+		
+		desc = "Set this to false to disable all slabs";
+		slabsEnabled = loadPropBool("slabs.enabled", desc, slabsEnabled);
+		
+		desc = "Set this to false to disable all walls";
+		wallsEnabled = loadPropBool("walls.enabled", desc, wallsEnabled);
+		
+		desc = "Set this to true to enable min/max mode(Showing of mana numbers in gui/wand rightclick)";
+		minMaxEnabled = loadPropBool("minmax.enabled", desc, minMaxEnabled);
+		
+		desc = "Change the value of this to set the maximum burnTime in ticks for the endoflame, leave at -1 to disable";
+		endoflameFuelCap = loadPropInt("endoflame.fuelcap", desc, endoflameFuelCap);
+		
+		desc = "Change the value of this to set the cooldown in ticks for the thermalily, leave at 0 to disable";
+		thermalilyCooldown = loadPropInt("thermalily.cooldown", desc, thermalilyCooldown);
+		
+		desc = "Change the value of this to set the cooldown in ticks for the hydroangea, leave at 0 to disable";
+		hydroangeaCooldown = loadPropInt("hydroangea.cooldown", desc, hydroangeaCooldown);
+		
+		desc = "Set this to true to prevent hydroangeas and thermalilys from drinking during cooldown";
+		hydroThermaCooldownWait = loadPropBool("hydroThermaCooldownWait.enabled", desc, hydroThermaCooldownWait);
+		
+		desc = "Set this to false to disable Guardian of Gaia boss fight music";
+		gaiaMusicEnabled = loadPropBool("gaiamusic.enabled", desc, gaiaMusicEnabled);
+		
+		desc = "Set this to false to enable flugel tiara infinite flight";
+		flugelTiaraUnlimited = loadPropBool("flugeltiaraunlimited.enabled", desc, flugelTiaraUnlimited);
+		
+		desc = "Change the value of this to set the mana cost per tick of the flugel tiara";
+		flugelTiaraCost = loadPropInt("flugeltiara.cost", desc, flugelTiaraCost);
+		
+		desc = "Change the value of this to set the max fly time in ticks of the flugel tiara";
+		flugelTiaraMaxFlyTime = loadPropInt("flugeltiara.maxflytime", desc, flugelTiaraMaxFlyTime);
+		
+		desc = "Change the value of this to set the delay in ticks between flugel tiara dashes";
+		flugelTiaraDashDelay = loadPropInt("flugeltiara.dashdelay", desc, flugelTiaraDashDelay);
+		
+		
 		potionIDSoulCross = loadPropPotionId(LibPotionNames.SOUL_CROSS, potionIDSoulCross);
 		potionIDFeatherfeet = loadPropPotionId(LibPotionNames.FEATHER_FEET, potionIDFeatherfeet);
 		potionIDEmptiness = loadPropPotionId(LibPotionNames.EMPTINESS, potionIDEmptiness);

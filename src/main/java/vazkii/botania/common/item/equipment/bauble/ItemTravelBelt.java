@@ -27,8 +27,6 @@ import net.minecraftforge.event.entity.living.LivingEvent.LivingUpdateEvent;
 import org.lwjgl.opengl.GL11;
 
 import vazkii.botania.api.item.IBaubleRender;
-import vazkii.botania.api.mana.IManaUsingItem;
-import vazkii.botania.api.mana.ManaItemHandler;
 import vazkii.botania.client.lib.LibResources;
 import vazkii.botania.common.lib.LibItemNames;
 import baubles.api.BaubleType;
@@ -38,14 +36,11 @@ import cpw.mods.fml.common.gameevent.PlayerEvent;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 
-public class ItemTravelBelt extends ItemBauble implements IBaubleRender, IManaUsingItem {
+public class ItemTravelBelt extends ItemBauble implements IBaubleRender {
 
 	private static final ResourceLocation texture = new ResourceLocation(LibResources.MODEL_TRAVEL_BELT);
 	@SideOnly(Side.CLIENT)
 	private static ModelBiped model;
-
-	private static final int COST = 1;
-	private static final int COST_INTERVAL = 10;
 
 	public static List<String> playersWithStepup = new ArrayList();
 
@@ -85,9 +80,6 @@ public class ItemTravelBelt extends ItemBauble implements IBaubleRender, IManaUs
 						float speed = beltItem.getSpeed(belt);
 						player.moveFlying(0F, 1F, player.capabilities.isFlying ? speed : speed);
 						beltItem.onMovedTick(belt, player);
-
-						if(player.ticksExisted % COST_INTERVAL == 0)
-							ManaItemHandler.requestManaExact(belt, player, COST, true);
 					} else beltItem.onNotMovingTick(belt, player);
 
 					if(player.isSneaking())
@@ -123,7 +115,7 @@ public class ItemTravelBelt extends ItemBauble implements IBaubleRender, IManaUs
 			EntityPlayer player = (EntityPlayer) event.entityLiving;
 			ItemStack belt = PlayerHandler.getPlayerBaubles(player).getStackInSlot(3);
 
-			if(belt != null && belt.getItem() instanceof ItemTravelBelt && ManaItemHandler.requestManaExact(belt, player, COST, false)) {
+			if(belt != null && belt.getItem() instanceof ItemTravelBelt) {
 				player.motionY += ((ItemTravelBelt) belt.getItem()).jump;
 				player.fallDistance = -((ItemTravelBelt) belt.getItem()).fallBuffer;
 			}
@@ -132,7 +124,7 @@ public class ItemTravelBelt extends ItemBauble implements IBaubleRender, IManaUs
 
 	private boolean shouldPlayerHaveStepup(EntityPlayer player) {
 		ItemStack armor = PlayerHandler.getPlayerBaubles(player).getStackInSlot(3);
-		return armor != null && armor.getItem() instanceof ItemTravelBelt && ManaItemHandler.requestManaExact(armor, player, COST, false);
+		return armor != null && armor.getItem() instanceof ItemTravelBelt;
 	}
 
 	@SubscribeEvent
@@ -166,11 +158,6 @@ public class ItemTravelBelt extends ItemBauble implements IBaubleRender, IManaUs
 
 			model.bipedBody.render(1F);
 		}
-	}
-
-	@Override
-	public boolean usesMana(ItemStack stack) {
-		return true;
 	}
 
 }

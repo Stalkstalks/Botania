@@ -5,6 +5,7 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 
+import net.minecraft.client.Minecraft;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.StatCollector;
@@ -19,6 +20,7 @@ import vazkii.botania.client.lib.LibResources;
 import vazkii.botania.client.render.tile.RenderTilePool;
 import vazkii.botania.common.block.ModBlocks;
 import vazkii.botania.common.block.tile.mana.TilePool;
+import vazkii.botania.common.core.handler.ConfigHandler;
 import codechicken.lib.gui.GuiDraw;
 import codechicken.nei.NEIServerUtils;
 import codechicken.nei.PositionedStack;
@@ -36,6 +38,9 @@ public class RecipeHandlerManaPool extends TemplateRecipeHandler {
 		public CachedManaPoolRecipe(RecipeManaInfusion recipe) {
 			if(recipe == null)
 				return;
+			if(recipe.getOutput() == null)
+				return;
+				
 			inputs.add(new PositionedStack(new ItemStack(ModBlocks.pool, 1, recipe.getOutput().getItem() == Item.getItemFromBlock(ModBlocks.pool) ? 2 : 0), 71, 37));
 
 			if(recipe.getInput() instanceof String)
@@ -116,6 +121,12 @@ public class RecipeHandlerManaPool extends TemplateRecipeHandler {
 		GuiDraw.drawTexturedModalRect(45, 20, 38, 35, 92, 50);
 		HUDHandler.renderManaBar(32, 80, 0x0000FF, 0.75F, ((CachedManaPoolRecipe) arecipes.get(recipe)).mana, TilePool.MAX_MANA / 10);
 		RenderTilePool.forceMana = true;
+		if (ConfigHandler.minMaxEnabled)
+		{
+			Minecraft mc = Minecraft.getMinecraft();
+			mc.fontRenderer.drawString(StatCollector.translateToLocal("botania.nei.minmaxrecipe") + ": " + String.valueOf(((CachedManaPoolRecipe) arecipes.get(recipe)).mana), 32, 90, 0x3434D3);
+		}
+
 	}
 
 	@Override

@@ -349,6 +349,20 @@ worldgen.flower.density=Worldgen Flower Density
 worldgen.flower.quantity=Worldgen Flower Quantity
 worldgen.mushroom.quantity=Worldgen Mushroom Quantity
 
+stairs.enabled=Enable Stairs
+slabs.enabled=Enable Slabs
+walls.enabled=Enable Walls
+minmax.enabled=Enable MinMax Mode
+endoflame.fuelcap=Endoflame Max Fuel Burn Time
+thermalily.cooldown=Thermalily Cooldown
+hydroangea.cooldown=Hydroangea Cooldown
+hydroThermaCooldownWait.enabled=Enable Hydro/Therma Cooldown Wait
+gaiamusic.enabled=Enable Guardian of Gaia Battle Music
+flugeltiaraunlimited.enabled=Disable Flugel Tiara Infinite Flight
+flugeltiara.cost=Flugel Tiara Mana Cost
+flugeltiara.maxflytime=Flugel Tiara Max Fly Time
+flugeltiara.dashdelay=Flugel Tiara Dash Delay
+
 # VERSION CHECKING
 botania.versioning.flavour0=NANI SORE!? BOTANIA IS OUTDATED!?
 botania.versioning.flavour1=What do you mean Botania is outdated, you ignorant fool?
@@ -3446,7 +3460,7 @@ botania.page.auraRing2=Upgrading the ring
 # -- SOUJOURNER'S SASH
 botania.entry.travelBelt=Soujourner's Sash
 botania.tagline.travelBelt=Go faster, jump higher and step better
-botania.page.travelBelt0=Traversing terrain sometimes proves to be a hassle. The &1Soujourner's Sash&0 can be equipped in the &4Belt&0 slot, and when worn will increase the movement speed, jump height and resistance to fall damage of the wearer. This power comes at a small &4Mana&0 cost.<br>Lastly, if not sneaking, it also allows the wearer to walk over 1 block high gaps without jumping with ease.
+botania.page.travelBelt0=Traversing terrain sometimes proves to be a hassle. The &1Soujourner's Sash&0 can be equipped in the &4Belt&0 slot, and when worn will increase the movement speed, jump height and resistance to fall damage of the wearer. <br>Lastly, if not sneaking, it also allows the wearer to walk over 1 block high gaps without jumping with ease.
 botania.page.travelBelt1=...everell
 
 # -- TECTONIC GIRDLE
@@ -3856,6 +3870,10 @@ botania.entry.banners=Banner Additions
 botania.tagline.banners=Lots of new banner patterns
 botania.page.banners0=In the presence of the &1Banners&0 from the future, &1Botania&0 adds &415&0 new icons to them, which can be mixed and matched with the original patterns and icons.<br>The following items can be used alongside a dye in the crafting grid to add an icon to a &1Banner&0: &1All Iron Tools&0, &1Spark Augments&0, &1Raw Fish&0, &1Livingwood and Dreamwood Twigs&0, &1Lexica Botania&0, &1Terrasteel&0 and the &1Tiny Potato&0.
 botania.page.banners1=Showcase of the various banners
+
+# -- A NEW DAWN
+botania.nei.minmaxrecipe=Mana Required
+botania.minmaxmana=Mana 
 
 # -- PREVNTING DECAY
 botania.entry.preventingDecay=Preventing Decay

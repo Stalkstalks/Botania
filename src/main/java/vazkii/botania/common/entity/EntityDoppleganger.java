@@ -72,7 +72,6 @@ import vazkii.botania.common.block.ModBlocks;
 import vazkii.botania.common.core.handler.ConfigHandler;
 import vazkii.botania.common.core.helper.Vector3;
 import vazkii.botania.common.item.ModItems;
-import vazkii.botania.common.item.relic.ItemRelic;
 import vazkii.botania.common.lib.LibObfuscation;
 import cpw.mods.fml.relauncher.ReflectionHelper;
 import cpw.mods.fml.relauncher.Side;
@@ -147,7 +146,7 @@ public class EntityDoppleganger extends EntityCreature implements IBotaniaBossWi
 	}
 
 	public static boolean spawn(EntityPlayer player, ItemStack par1ItemStack, World par3World, int par4, int par5, int par6, boolean hard) {
-		if(par3World.getTileEntity(par4, par5, par6) instanceof TileEntityBeacon && isTruePlayer(player)) {
+		if(par3World.getTileEntity(par4, par5, par6) instanceof TileEntityBeacon) {
 			if(par3World.difficultySetting == EnumDifficulty.PEACEFUL) {
 				if(!par3World.isRemote)
 					player.addChatMessage(new ChatComponentTranslation("botaniamisc.peacefulNoob").setChatStyle(new ChatStyle().setColor(EnumChatFormatting.RED)));
@@ -168,24 +167,6 @@ public class EntityDoppleganger extends EntityCreature implements IBotaniaBossWi
 				}
 			}
 
-			if(!hasProperArena(par3World, par4, par5, par6)) {
-				for(int i = 0; i < 360; i += 8) {
-					float r = 1F;
-					float g = 0F;
-					float b = 1F;
-					float rad = i * (float) Math.PI / 180F;
-					double x = par4 + 0.5 - Math.cos(rad) * RANGE;
-					double y = par5 + 0.5;
-					double z = par6 + 0.5 - Math.sin(rad) * RANGE;
-
-					Botania.proxy.sparkleFX(par3World, x, y, z, r, g, b, 5F, 120);
-				}
-
-				if(!par3World.isRemote)
-					player.addChatMessage(new ChatComponentTranslation("botaniamisc.badArena").setChatStyle(new ChatStyle().setColor(EnumChatFormatting.RED)));
-				return false;
-			}
-
 			par1ItemStack.stackSize--;
 
 			if(par3World.isRemote)
@@ -200,7 +181,7 @@ public class EntityDoppleganger extends EntityCreature implements IBotaniaBossWi
 			e.setHardMode(hard);
 
 			List<EntityPlayer> players = e.getPlayersAround();
-			int playerCount = 0;
+			int playerCount = 1;
 			for(EntityPlayer p : players)
 				if(isTruePlayer(p))
 					playerCount++;
@@ -214,41 +195,6 @@ public class EntityDoppleganger extends EntityCreature implements IBotaniaBossWi
 		}
 
 		return false;
-	}
-
-	private static boolean hasProperArena(World world, int sx, int sy, int sz) {
-		int heightCheck = 3;
-		int heightMin = 2;
-		int range = (int) Math.ceil(RANGE);
-		for(int i = -range; i < range + 1; i++)
-			for(int j = -range; j < range + 1; j++) {
-				if(Math.abs(i) == 4 && Math.abs(j) == 4 || vazkii.botania.common.core.helper.MathHelper.pointDistancePlane(i, j, 0, 0) > RANGE)
-					continue; // Ignore pylons and out of circle
-
-				int x = sx + i;
-				int z = sz + j;
-				int air = 0;
-
-				yCheck: {
-					for(int k = heightCheck + heightMin + 1; k >= -heightCheck; k--) {
-						int y = sy + k;
-						boolean isAir = world.getBlock(x, y, z).getCollisionBoundingBoxFromPool(world, x, y, z) == null;
-						if(isAir)
-							air++;
-						else {
-							if(k > heightCheck)
-								continue;
-							else if(air > 2)
-								break yCheck;
-							air = 0;
-						}
-					}
-
-					return false;
-				}
-			}
-
-		return true;
 	}
 
 	@Override
@@ -368,20 +314,9 @@ public class EntityDoppleganger extends EntityCreature implements IBotaniaBossWi
 	@Override
 	public boolean attackEntityFrom(DamageSource par1DamageSource, float par2) {
 		Entity e = par1DamageSource.getEntity();
-		if((par1DamageSource.damageType.equals("player") || e instanceof EntityPixie) && e != null && isTruePlayer(e) && getInvulTime() == 0) {
-			EntityPlayer player = (EntityPlayer) e;
-			if(!playersWhoAttacked.contains(player.getCommandSenderName()))
-				playersWhoAttacked.add(player.getCommandSenderName());
-
-			float dmg = par2;
-			boolean crit = false;
-			if(e instanceof EntityPlayer) {
-				EntityPlayer p = (EntityPlayer) e;
-				crit = p.fallDistance > 0.0F && !p.onGround && !p.isOnLadder() && !p.isInWater() && !p.isPotionActive(Potion.blindness) && p.ridingEntity == null;
-			}
-
-			int cap = crit ? 60 : 40;
-			return super.attackEntityFrom(par1DamageSource, Math.min(cap, dmg) * (isHardMode() ? 0.6F : 1F));
+		if((par1DamageSource.damageType.equals("player") || e instanceof EntityPixie) && e != null && getInvulTime() == 0) {
+			int cap = isHardMode()  ? 100 : 99999;
+			return super.attackEntityFrom(par1DamageSource, Math.min(cap, par2) * (isHardMode() ? 0.6F : 1F));
 		}
 		return false;
 	}
@@ -449,16 +384,15 @@ public class EntityDoppleganger extends EntityCreature implements IBotaniaBossWi
 	@Override
 	protected void dropFewItems(boolean par1, int par2) {
 		if(par1) {
-			for(int pl = 0; pl < playersWhoAttacked.size(); pl++) {
+			for(int pl = 0; pl < getPlayerCount(); pl++) {
 				boolean hard = isHardMode();
-				entityDropItem(new ItemStack(ModItems.manaResource, pl == 0 ? hard ? 16 : 8 : hard ? 10 : 6, 5), 1F);
+				entityDropItem(new ItemStack(ModItems.manaResource, hard ? 16 : 8, 5), 1F);
 				boolean droppedRecord = false;
 
 				if(hard) {
 					entityDropItem(new ItemStack(ModItems.ancientWill, 1, rand.nextInt(6)), 1F);
 					if(ConfigHandler.relicsEnabled) {
 						ItemStack dice = new ItemStack(ModItems.dice);
-						ItemRelic.bindToUsernameS(playersWhoAttacked.get(pl), dice);
 						entityDropItem(dice, 1F);
 					}
 
@@ -525,29 +459,21 @@ public class EntityDoppleganger extends EntityCreature implements IBotaniaBossWi
 		boolean peaceful = worldObj.difficultySetting == EnumDifficulty.PEACEFUL;
 		if(!worldObj.isRemote && peaceful)
 			setDead();
-
+			
 		if(!worldObj.isRemote) {
-			int radius = 1;
 			int posXInt = MathHelper.floor_double(posX);
 			int posYInt = MathHelper.floor_double(posY);
 			int posZInt = MathHelper.floor_double(posZ);
-			for(int i = -radius; i < radius + 1; i++)
-				for(int j = -radius; j < radius + 1; j++)
-					for(int k = -radius; k < radius + 1; k++) {
-						int xp = posXInt + i;
-						int yp = posYInt + j;
-						int zp = posZInt + k;
-						if(isCheatyBlock(worldObj, xp, yp, zp)) {
-							Block block = worldObj.getBlock(xp, yp, zp);
-							List<ItemStack> items = block.getDrops(worldObj, xp, yp, zp, 0, 0);
-							for(ItemStack stack : items) {
-								if(ConfigHandler.blockBreakParticles)
-									worldObj.playAuxSFX(2001, xp, yp, zp, Block.getIdFromBlock(block) + (worldObj.getBlockMetadata(xp, yp, zp) << 12));
-								worldObj.spawnEntityInWorld(new EntityItem(worldObj, xp + 0.5, yp + 0.5, zp + 0.5, stack));
-							}
-							worldObj.setBlockToAir(xp, yp, zp);
-						}
-					}
+			Block block = worldObj.getBlock(posXInt, posYInt, posZInt);
+			if(block.getBlockHardness(worldObj, posXInt, posYInt, posZInt) >= 0) {
+				List<ItemStack> items = block.getDrops(worldObj, posXInt, posYInt, posZInt, 0, 0);
+				for(ItemStack stack : items) {
+					if(ConfigHandler.blockBreakParticles)
+							worldObj.playAuxSFX(2001, posXInt, posYInt, posZInt, Block.getIdFromBlock(block) + (worldObj.getBlockMetadata(posXInt, posYInt, posZInt) << 12));
+						worldObj.spawnEntityInWorld(new EntityItem(worldObj, posXInt + 0.5, posYInt + 0.5, posZInt + 0.5, stack));
+				}
+				worldObj.setBlockToAir(posXInt, posYInt, posZInt);
+			}
 		}
 
 		ChunkCoordinates source = getSource();
@@ -556,7 +482,7 @@ public class EntityDoppleganger extends EntityCreature implements IBotaniaBossWi
 		List<EntityPlayer> players = getPlayersAround();
 		int playerCount = getPlayerCount();
 
-		if(worldObj.isRemote && !isPlayingMusic && !isDead && !players.isEmpty()) {
+		if(worldObj.isRemote && !isPlayingMusic && !isDead && !players.isEmpty() && ConfigHandler.gaiaMusicEnabled) {
 			Botania.proxy.playRecordClientSided(worldObj, source.posX, source.posY, source.posZ, (ItemRecord) (hard ? ModItems.recordGaia2 : ModItems.recordGaia1));
 			isPlayingMusic = true;
 		}
@@ -721,10 +647,11 @@ public class EntityDoppleganger extends EntityCreature implements IBotaniaBossWi
 
 					setTPDelay(getTPDelay() - 1);
 					if(getTPDelay() == 0 && getHealth() > 0) {
+						DamageSource damageSource = (new DamageSource("player"));
 						int tries = 0;
 						while(!teleportRandomly() && tries < 50)
 							tries++;
-						if(tries >= 50)
+						if(tries >= 50 && isTruePlayer(damageSource.getEntity()))
 							teleportTo(source.posX + 0.5, source.posY + 1.6, source.posZ + 0.5);
 
 						if(spawnLandmines) {

@@ -34,15 +34,7 @@ public class CommandDownloadLatest extends CommandBase {
 
 	@Override
 	public void processCommand(ICommandSender var1, String[] var2) {
-		if(!ENABLED)
-			var1.addChatMessage(new ChatComponentTranslation("botania.versioning.disabled").setChatStyle(new ChatStyle().setColor(EnumChatFormatting.RED)));
-
-		else if(var2.length == 1)
-			if(VersionChecker.downloadedFile)
-				var1.addChatMessage(new ChatComponentTranslation("botania.versioning.downloadedAlready").setChatStyle(new ChatStyle().setColor(EnumChatFormatting.RED)));
-			else if(VersionChecker.startedDownload)
-				var1.addChatMessage(new ChatComponentTranslation("botania.versioning.downloadingAlready").setChatStyle(new ChatStyle().setColor(EnumChatFormatting.RED)));
-			else new ThreadDownloadMod("Botania " + var2[0] + ".jar");
+		var1.addChatMessage(new ChatComponentTranslation("botania.versioning.disabled").setChatStyle(new ChatStyle().setColor(EnumChatFormatting.RED)));
 	}
 
 }

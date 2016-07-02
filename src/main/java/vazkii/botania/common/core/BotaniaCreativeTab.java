@@ -301,113 +301,137 @@ public final class BotaniaCreativeTab extends CreativeTabs {
 
 		addStack(new ItemStack(Blocks.dirt, 1, 1));
 		addBlock(ModBlocks.dirtPath);
-		addBlock(ModFluffBlocks.dirtPathSlab);
 
 		addBlock(ModBlocks.prismarine);
 		addBlock(ModBlocks.seaLamp);
-		addBlock(ModFluffBlocks.prismarineStairs);
-		addBlock(ModFluffBlocks.prismarineSlab);
-		addBlock(ModFluffBlocks.prismarineWall);
-		addBlock(ModFluffBlocks.prismarineBrickStairs);
-		addBlock(ModFluffBlocks.prismarineBrickSlab);
-		addBlock(ModFluffBlocks.darkPrismarineStairs);
-		addBlock(ModFluffBlocks.darkPrismarineSlab);
 
 		addBlock(ModBlocks.blazeBlock);
 
 		addBlock(ModBlocks.reedBlock);
-		addBlock(ModFluffBlocks.reedStairs);
-		addBlock(ModFluffBlocks.reedSlab);
-		addBlock(ModFluffBlocks.reedWall);
 		addBlock(ModBlocks.thatch);
-		addBlock(ModFluffBlocks.thatchStairs);
-		addBlock(ModFluffBlocks.thatchSlab);
 
 		addBlock(ModBlocks.customBrick);
-		addBlock(ModFluffBlocks.netherBrickStairs);
-		addBlock(ModFluffBlocks.netherBrickSlab);
-		addBlock(ModFluffBlocks.soulBrickStairs);
-		addBlock(ModFluffBlocks.soulBrickSlab);
-		addBlock(ModFluffBlocks.snowBrickStairs);
-		addBlock(ModFluffBlocks.snowBrickSlab);
-		addBlock(ModFluffBlocks.tileStairs);
-		addBlock(ModFluffBlocks.tileSlab);
 
-		addBlock(ModFluffBlocks.livingwoodStairs);
-		addBlock(ModFluffBlocks.livingwoodSlab);
-		addBlock(ModFluffBlocks.livingwoodWall);
-		addBlock(ModFluffBlocks.livingwoodPlankStairs);
-		addBlock(ModFluffBlocks.livingwoodPlankSlab);
-		addBlock(ModFluffBlocks.livingrockStairs);
-		addBlock(ModFluffBlocks.livingrockSlab);
-		addBlock(ModFluffBlocks.livingrockWall);
-		addBlock(ModFluffBlocks.livingrockBrickStairs);
-		addBlock(ModFluffBlocks.livingrockBrickSlab);
-		addBlock(ModFluffBlocks.dreamwoodStairs);
-		addBlock(ModFluffBlocks.dreamwoodSlab);
-		addBlock(ModFluffBlocks.dreamwoodWall);
-		addBlock(ModFluffBlocks.dreamwoodPlankStairs);
-		addBlock(ModFluffBlocks.dreamwoodPlankSlab);
-		addBlock(ModFluffBlocks.shimmerwoodPlankStairs);
-		addBlock(ModFluffBlocks.shimmerwoodPlankSlab);
-		addBlock(ModFluffBlocks.shimmerrockStairs);
-		addBlock(ModFluffBlocks.shimmerrockSlab);
 
 		addItem(ModItems.quartz);
 		if(ConfigHandler.darkQuartzEnabled) {
 			addBlock(ModFluffBlocks.darkQuartz);
-			addBlock(ModFluffBlocks.darkQuartzSlab);
-			addBlock(ModFluffBlocks.darkQuartzStairs);
+			if(ConfigHandler.slabsEnabled) {
+				addBlock(ModFluffBlocks.darkQuartzSlab);
+			}
+			if(ConfigHandler.stairsEnabled) {
+				addBlock(ModFluffBlocks.darkQuartzStairs);
+			}
 		}
 
+		
 		addBlock(ModFluffBlocks.manaQuartz);
-		addBlock(ModFluffBlocks.manaQuartzSlab);
-		addBlock(ModFluffBlocks.manaQuartzStairs);
 		addBlock(ModFluffBlocks.blazeQuartz);
-		addBlock(ModFluffBlocks.blazeQuartzSlab);
-		addBlock(ModFluffBlocks.blazeQuartzStairs);
 		addBlock(ModFluffBlocks.lavenderQuartz);
-		addBlock(ModFluffBlocks.lavenderQuartzSlab);
-		addBlock(ModFluffBlocks.lavenderQuartzStairs);
 		addBlock(ModFluffBlocks.redQuartz);
-		addBlock(ModFluffBlocks.redQuartzSlab);
-		addBlock(ModFluffBlocks.redQuartzStairs);
 		addBlock(ModFluffBlocks.elfQuartz);
-		addBlock(ModFluffBlocks.elfQuartzSlab);
-		addBlock(ModFluffBlocks.elfQuartzStairs);
 		addBlock(ModFluffBlocks.sunnyQuartz);
-		addBlock(ModFluffBlocks.sunnyQuartzSlab);
-		addBlock(ModFluffBlocks.sunnyQuartzStairs);
 
 		if(ConfigHandler.stones18Enabled) {
 			addBlock(ModFluffBlocks.stone);
-			for(int i = 0; i < 8; i++)
-				addBlock(ModFluffBlocks.stoneStairs[i]);
-			for(int i = 0; i < 8; i++)
-				addBlock(ModFluffBlocks.stoneSlabs[i]);
-			addBlock(ModFluffBlocks.stoneWall);
+			if(ConfigHandler.stairsEnabled) {
+				for(int i = 0; i < 8; i++)
+					addBlock(ModFluffBlocks.stoneStairs[i]);
+			}
+			if(ConfigHandler.slabsEnabled) {
+				for(int i = 0; i < 8; i++)
+					addBlock(ModFluffBlocks.stoneSlabs[i]);
+			}
+			if(ConfigHandler.wallsEnabled) {
+				addBlock(ModFluffBlocks.stoneWall);
+			}
 		}
 
 		addBlock(ModFluffBlocks.biomeStoneA);
 		addBlock(ModFluffBlocks.biomeStoneB);
-		for(int i = 0; i < 24; i++)
-			addBlock(ModFluffBlocks.biomeStoneStairs[i]);
-		for(int i = 0; i < 24; i++)
-			addBlock(ModFluffBlocks.biomeStoneSlabs[i]);
-		addBlock(ModFluffBlocks.biomeStoneWall);
 
 		addBlock(ModFluffBlocks.pavement);
-		for (Block pavementStair : ModFluffBlocks.pavementStairs)
-			addBlock(pavementStair);
-		for (Block pavementSlab : ModFluffBlocks.pavementSlabs)
-			addBlock(pavementSlab);
 
 		if(ConfigHandler.enderStuff19Enabled) {
 			addBlock(ModBlocks.endStoneBrick);
-			addBlock(ModFluffBlocks.endStoneSlab);
-			addBlock(ModFluffBlocks.endStoneStairs);
-			addBlock(ModFluffBlocks.enderBrickSlab);
-			addBlock(ModFluffBlocks.enderBrickStairs);
+			if(ConfigHandler.stairsEnabled) {
+				addBlock(ModFluffBlocks.endStoneStairs);
+				addBlock(ModFluffBlocks.enderBrickStairs);
+			}
+			if(ConfigHandler.slabsEnabled) {
+				addBlock(ModFluffBlocks.endStoneSlab);
+				addBlock(ModFluffBlocks.enderBrickSlab);
+			}
+		}
+		
+		if(ConfigHandler.stairsEnabled) {
+			addBlock(ModFluffBlocks.prismarineStairs);
+			addBlock(ModFluffBlocks.prismarineBrickStairs);
+			addBlock(ModFluffBlocks.darkPrismarineStairs);
+			addBlock(ModFluffBlocks.reedStairs);
+			addBlock(ModFluffBlocks.thatchStairs);
+			addBlock(ModFluffBlocks.netherBrickStairs);
+			addBlock(ModFluffBlocks.soulBrickStairs);
+			addBlock(ModFluffBlocks.snowBrickStairs);
+			addBlock(ModFluffBlocks.tileStairs);
+			addBlock(ModFluffBlocks.livingwoodStairs);
+			addBlock(ModFluffBlocks.livingwoodPlankStairs);
+			addBlock(ModFluffBlocks.livingrockStairs);
+			addBlock(ModFluffBlocks.livingrockBrickStairs);
+			addBlock(ModFluffBlocks.dreamwoodStairs);
+			addBlock(ModFluffBlocks.dreamwoodPlankStairs);
+			addBlock(ModFluffBlocks.shimmerwoodPlankStairs);
+			addBlock(ModFluffBlocks.shimmerrockStairs);
+			addBlock(ModFluffBlocks.manaQuartzStairs);
+			addBlock(ModFluffBlocks.blazeQuartzStairs);
+			addBlock(ModFluffBlocks.lavenderQuartzStairs);
+			addBlock(ModFluffBlocks.redQuartzStairs);
+			addBlock(ModFluffBlocks.elfQuartzStairs);
+			addBlock(ModFluffBlocks.sunnyQuartzStairs);
+			for(int i = 0; i < 24; i++)
+				addBlock(ModFluffBlocks.biomeStoneStairs[i]);
+			for (Block pavementStair : ModFluffBlocks.pavementStairs)
+				addBlock(pavementStair);
+		}
+
+		if(ConfigHandler.slabsEnabled) {
+			addBlock(ModFluffBlocks.dirtPathSlab);
+			addBlock(ModFluffBlocks.prismarineSlab);
+			addBlock(ModFluffBlocks.prismarineBrickSlab);
+			addBlock(ModFluffBlocks.darkPrismarineSlab);
+			addBlock(ModFluffBlocks.reedSlab);
+			addBlock(ModFluffBlocks.thatchSlab);
+			addBlock(ModFluffBlocks.netherBrickSlab);
+			addBlock(ModFluffBlocks.soulBrickSlab);
+			addBlock(ModFluffBlocks.snowBrickSlab);
+			addBlock(ModFluffBlocks.tileSlab);
+			addBlock(ModFluffBlocks.livingwoodSlab);
+			addBlock(ModFluffBlocks.livingwoodPlankSlab);
+			addBlock(ModFluffBlocks.livingrockSlab);
+			addBlock(ModFluffBlocks.livingrockBrickSlab);
+			addBlock(ModFluffBlocks.dreamwoodSlab);
+			addBlock(ModFluffBlocks.dreamwoodPlankSlab);
+			addBlock(ModFluffBlocks.shimmerwoodPlankSlab);
+			addBlock(ModFluffBlocks.shimmerrockSlab);
+			addBlock(ModFluffBlocks.manaQuartzSlab);
+			addBlock(ModFluffBlocks.blazeQuartzSlab);
+			addBlock(ModFluffBlocks.lavenderQuartzSlab);
+			addBlock(ModFluffBlocks.redQuartzSlab);
+			addBlock(ModFluffBlocks.elfQuartzSlab);
+			addBlock(ModFluffBlocks.sunnyQuartzSlab);
+			for(int i = 0; i < 24; i++)
+				addBlock(ModFluffBlocks.biomeStoneSlabs[i]);
+			for (Block pavementSlab : ModFluffBlocks.pavementSlabs)
+				addBlock(pavementSlab);
+		}
+
+		if(ConfigHandler.slabsEnabled) {
+			addBlock(ModFluffBlocks.prismarineWall);
+			addBlock(ModFluffBlocks.reedWall);
+			addBlock(ModFluffBlocks.livingwoodWall);
+			addBlock(ModFluffBlocks.livingrockWall);
+			addBlock(ModFluffBlocks.dreamwoodWall);
+			addBlock(ModFluffBlocks.biomeStoneWall);
 		}
 
 		addItem(ModItems.cosmetic);

@@ -42,6 +42,7 @@ import vazkii.botania.api.lexicon.ILexicon;
 import vazkii.botania.api.lexicon.ILexiconable;
 import vazkii.botania.api.lexicon.LexiconEntry;
 import vazkii.botania.api.mana.ICreativeManaProvider;
+import vazkii.botania.api.mana.IManaBlock;
 import vazkii.botania.api.mana.IManaItem;
 import vazkii.botania.api.mana.IManaUsingItem;
 import vazkii.botania.api.recipe.RecipeManaInfusion;
@@ -437,6 +438,13 @@ public final class HUDHandler {
 			x = res.getScaledWidth() / 2 - mc.fontRenderer.getStringWidth(text) / 2;
 			y -= 1;
 			mc.fontRenderer.drawString(text, x, y, color);
+		}
+		else if (ConfigHandler.minMaxEnabled)
+		{
+			String text = String.valueOf(mana)+ " " + StatCollector.translateToLocal("botania.minmaxmana");
+			x = res.getScaledWidth() / 2 - mc.fontRenderer.getStringWidth(text) / 2;
+			y -= 1;
+			mc.fontRenderer.drawStringWithShadow(text, x, y, color);
 		}
 
 		GL11.glDisable(GL11.GL_BLEND);
