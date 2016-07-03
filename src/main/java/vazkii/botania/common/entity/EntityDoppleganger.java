@@ -314,7 +314,7 @@ public class EntityDoppleganger extends EntityCreature implements IBotaniaBossWi
 	@Override
 	public boolean attackEntityFrom(DamageSource par1DamageSource, float par2) {
 		Entity e = par1DamageSource.getEntity();
-		if((par1DamageSource.damageType.equals("player") || e instanceof EntityPixie) && e != null && getInvulTime() == 0) {
+		if((e != null || !isHardMode()) && getInvulTime() == 0) {
 			int cap = isHardMode()  ? 100 : 99999;
 			return super.attackEntityFrom(par1DamageSource, Math.min(cap, par2) * (isHardMode() ? 0.6F : 1F));
 		}

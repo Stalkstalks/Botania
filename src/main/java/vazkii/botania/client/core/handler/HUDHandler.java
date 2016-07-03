@@ -444,7 +444,7 @@ public final class HUDHandler {
 			String text = String.valueOf(mana)+ " " + StatCollector.translateToLocal("botania.minmaxmana");
 			x = res.getScaledWidth() / 2 - mc.fontRenderer.getStringWidth(text) / 2;
 			y -= 1;
-			mc.fontRenderer.drawStringWithShadow(text, x, y, color);
+			mc.fontRenderer.drawStringWithShadow(text, x, y, 0xCCCCCC);
 		}
 
 		GL11.glDisable(GL11.GL_BLEND);
