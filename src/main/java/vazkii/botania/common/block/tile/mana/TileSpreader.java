@@ -594,7 +594,8 @@ public class TileSpreader extends TileSimpleInventory implements IManaCollector,
 
 	@Override
 	public float getManaYieldMultiplier(IManaBurst burst) {
-		return burst.getMana() < 16 ? 0F : 0.95F;
+		//return burst.getMana() < 16 ? 0F : 0.95F;
+		return 1F;
 	}
 
 	@Override

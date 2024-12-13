@@ -22,6 +22,7 @@ import vazkii.botania.client.lib.LibResources;
 import vazkii.botania.client.render.tile.RenderTilePool;
 import vazkii.botania.common.block.ModBlocks;
 import vazkii.botania.common.block.tile.mana.TilePool;
+import vazkii.botania.common.core.handler.ConfigHandler;
 import codechicken.lib.gui.GuiDraw;
 import codechicken.nei.NEIServerUtils;
 import codechicken.nei.PositionedStack;
@@ -39,6 +40,8 @@ public class RecipeHandlerManaPool extends TemplateRecipeHandler {
 
 		public CachedManaPoolRecipe(RecipeManaInfusion recipe) {
 			if(recipe == null)
+				return;
+			if(recipe.getOutput() == null)
 				return;
 			inputs.add(new PositionedStack(new ItemStack(ModBlocks.pool, 1, recipe.getOutput().getItem() == Item.getItemFromBlock(ModBlocks.pool) ? 2 : 0), 71, 37));
 
@@ -109,6 +112,12 @@ public class RecipeHandlerManaPool extends TemplateRecipeHandler {
 		String localized = StatCollector.translateToLocal("botaniamisc.neiratio");
 		font.drawString(size + localized, 84 - font.getStringWidth(size + localized) / 2, 71, 0x000000);
 		RenderTilePool.forceMana = true;
+		if (ConfigHandler.minMaxEnabled)
+		{
+			Minecraft mc = Minecraft.getMinecraft();
+			mc.fontRenderer.drawString(StatCollector.translateToLocal("botania.nei.minmaxrecipe") + ": " + String.valueOf(((CachedManaPoolRecipe) arecipes.get(recipe)).mana), 32, 90, 0x3434D3);
+		}
+
 	}
 
 	@Override

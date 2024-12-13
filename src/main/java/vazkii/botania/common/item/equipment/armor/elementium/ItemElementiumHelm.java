@@ -17,7 +17,7 @@ public class ItemElementiumHelm extends ItemElementiumArmor implements IManaDisc
 
 	@Override
 	public float getPixieChance(ItemStack stack) {
-		return 0.11F;
+		return 0.15F;
 	}
 
 	@Override

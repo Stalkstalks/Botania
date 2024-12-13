@@ -44,7 +44,7 @@ public class ItemStarSword extends ItemManasteelSword implements ICraftAchieveme
 			PotionEffect haste = player.getActivePotionEffect(Potion.digSpeed);
 			float check = haste == null ? 0.16666667F : haste.getAmplifier() == 1 ? 0.5F : 0.4F;
 
-			if(player.getCurrentEquippedItem() == par1ItemStack && player.swingProgress == check && !par2World.isRemote && par2World.rand.nextInt(2) == 0) {
+			if(player.getCurrentEquippedItem() == par1ItemStack && player.swingProgress == check && !par2World.isRemote) {
 				MovingObjectPosition pos = ToolCommons.raytraceFromEntity(par2World, par3Entity, true, 48);
 				if(pos != null) {
 					Vector3 posVec = new Vector3(pos.blockX, pos.blockY, pos.blockZ);

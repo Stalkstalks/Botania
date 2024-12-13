@@ -25,6 +25,7 @@ import vazkii.botania.api.lexicon.LexiconEntry;
 import vazkii.botania.api.subtile.RadiusDescriptor;
 import vazkii.botania.api.subtile.signature.PassiveFlower;
 import vazkii.botania.common.Botania;
+import vazkii.botania.common.core.handler.ConfigHandler;
 import vazkii.botania.common.core.helper.ItemNBTHelper;
 import vazkii.botania.common.lexicon.LexiconData;
 import vazkii.botania.common.lib.LibMisc;
@@ -37,7 +38,9 @@ public class SubTileHydroangeas extends SubTilePassiveGenerating {
 
 	private static final int[][] OFFSETS = { { 0, 1 }, { 0, -1 }, { 1, 0 }, { -1, 0 }, { -1, 1 }, { -1, -1 }, { 1, 1 }, { 1, -1 } };
 
-	int burnTime, cooldown;
+	int burnTime;
+	int cooldown = ConfigHandler.hydroangeaCooldown;
+	boolean cooldownWait = ConfigHandler.hydroThermaCooldownWait;
 
 	@Override
 	public void onUpdate() {
@@ -49,7 +52,7 @@ public class SubTileHydroangeas extends SubTilePassiveGenerating {
 				Botania.proxy.wispFX(supertile.getWorldObj(), supertile.xCoord + 0.5 + Math.random() * 0.2 - 0.1, supertile.yCoord + 0.5 + Math.random() * 0.2 - 0.1, supertile.zCoord + 0.5 + Math.random() * 0.2 - 0.1, 0.1F, 0.1F, 0.1F, (float) Math.random() / 6, (float) -Math.random() / 30);
 		}
 
-		if(burnTime == 0) {
+		if(0 == (cooldownWait ? burnTime + cooldown : burnTime)) {
 			if(mana < getMaxMana() && !supertile.getWorldObj().isRemote) {
 				List<int[]> offsets = Arrays.asList(OFFSETS);
 				Collections.shuffle(offsets);
@@ -180,7 +183,7 @@ public class SubTileHydroangeas extends SubTilePassiveGenerating {
 	}
 
 	public int getCooldown() {
-		return 0;
+		return ConfigHandler.hydroangeaCooldown;
 	}
 
 }

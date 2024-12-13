@@ -79,10 +79,11 @@ public class ItemFlightTiara extends ItemBauble implements IManaUsingItem, IBaub
 	private static final String TAG_IS_SPRINTING = "isSprinting";
 
 	public static List<String> playersWithFlight = new ArrayList();
-	private static final int COST = 35;
+	private static final int COST = ConfigHandler.flugelTiaraCost;
 	private static final int COST_OVERKILL = COST * 3;
-	private static final int MAX_FLY_TIME = 1200;
-
+	private static final int MAX_FLY_TIME = ConfigHandler.flugelTiaraUnlimited ? Integer.MAX_VALUE : ConfigHandler.flugelTiaraMaxFlyTime;
+	private static final int DASH_DELAY = ConfigHandler.flugelTiaraDashDelay;
+	
 	public static IIcon[] wingIcons;
 	private static final int SUBTYPES = 8;
 	private static final int WING_TYPES = 9;
@@ -123,7 +124,7 @@ public class ItemFlightTiara extends ItemBauble implements IManaUsingItem, IBaub
 	@Override
 	public void onEquipped(ItemStack stack, EntityLivingBase player) {
 		super.onEquipped(stack, player);
-		if(stack.getItemDamage() != WING_TYPES && hash(stack.getDisplayName()).equals("16E1BDFD1D6AE1A954C9C5E1B2D9099780F3E1724541F1F2F77310B769CFFBAC")) {
+		if(stack.getItemDamage() != WING_TYPES && stack.getDisplayName().equals("Secret")) {
 			stack.setItemDamage(WING_TYPES);
 			stack.getTagCompound().removeTag("display");
 		}
@@ -182,7 +183,7 @@ public class ItemFlightTiara extends ItemBauble implements IManaUsingItem, IBaub
 			if(flying) {
 				if(time > 0 && !ItemNBTHelper.getBoolean(stack, TAG_INFINITE_FLIGHT, false))
 					newTime--;
-				final int maxCd = 80;
+				final int maxCd = DASH_DELAY;
 				int cooldown = ItemNBTHelper.getInt(stack, TAG_DASH_COOLDOWN, 0);
 				if(!wasSprting && isSprinting && cooldown == 0) {
 					p.motionX += look.x;
@@ -199,12 +200,12 @@ public class ItemFlightTiara extends ItemBauble implements IManaUsingItem, IBaub
 						BotaniaAPI.internalHandler.sendBaubleUpdatePacket((EntityPlayerMP) player, 0);
 				}
 			} else if(!flying) {
-				boolean doGlide = player.isSneaking() && !player.onGround && player.fallDistance >= 2F;
+				boolean doGlide = (player.isSneaking() || isSprinting) && !player.onGround;
 				if(time < MAX_FLY_TIME && player.ticksExisted % (doGlide ? 6 : 2) == 0)
 					newTime++;
 
 				if(doGlide) {
-					player.motionY = Math.max(-0.15F, player.motionY);
+					player.motionY = Math.max(0F, player.motionY);
 					float mul = 0.6F;
 					player.motionX = look.x * mul;
 					player.motionZ = look.z * mul;
@@ -517,18 +518,21 @@ public class ItemFlightTiara extends ItemBauble implements IManaUsingItem, IBaub
 		int segs = left / segTime + 1;
 		int last = left % segTime;
 
-		for(int i = 0; i < segs; i++) {
-			float trans = 1F;
-			if(i == segs - 1) {
-				trans = (float) last / (float) segTime;
-				GL11.glEnable(GL11.GL_BLEND);
-				GL11.glBlendFunc(GL11.GL_SRC_ALPHA, GL11.GL_ONE_MINUS_SRC_ALPHA);
-				GL11.glDisable(GL11.GL_ALPHA_TEST);
-			}
+		if(!ConfigHandler.flugelTiaraUnlimited)
+		{
+			for(int i = 0; i < segs; i++) {
+				float trans = 1F;
+				if(i == segs - 1) {
+					trans = (float) last / (float) segTime;
+					GL11.glEnable(GL11.GL_BLEND);
+					GL11.glBlendFunc(GL11.GL_SRC_ALPHA, GL11.GL_ONE_MINUS_SRC_ALPHA);
+					GL11.glDisable(GL11.GL_ALPHA_TEST);
+				}
 
-			GL11.glColor4f(1F, 1F, 1F, trans);
-			RenderHelper.drawTexturedModalRect(x, y, 0, u, v, 9, 9);
-			x += 8;
+				GL11.glColor4f(1F, 1F, 1F, trans);
+				RenderHelper.drawTexturedModalRect(x, y, 0, u, v, 9, 9);
+				x += 8;
+			}
 		}
 
 		if(player.capabilities.isFlying) {

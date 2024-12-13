@@ -41,9 +41,9 @@ public class ItemGoldenLaurel extends ItemBauble implements IBaubleRender {
 		MinecraftForge.EVENT_BUS.register(this);
 	}
 
-	@SubscribeEvent(priority = EventPriority.HIGHEST)
+	@SubscribeEvent(priority = EventPriority.LOW)
 	public void onPlayerDeath(LivingDeathEvent event) {
-		if(event.entity instanceof EntityPlayer) {
+		if(!event.isCanceled() && event.entity instanceof EntityPlayer) {
 			EntityPlayer player = (EntityPlayer) event.entity;
 			ItemStack amulet = PlayerHandler.getPlayerBaubles(player).getStackInSlot(0);
 

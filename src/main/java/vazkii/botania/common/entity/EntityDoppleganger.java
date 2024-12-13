@@ -451,14 +451,13 @@ public class EntityDoppleganger extends EntityCreature implements IBotaniaBossWi
 		if(par1) {
 			for(int pl = 0; pl < playersWhoAttacked.size(); pl++) {
 				boolean hard = isHardMode();
-				entityDropItem(new ItemStack(ModItems.manaResource, pl == 0 ? hard ? 16 : 8 : hard ? 10 : 6, 5), 1F);
+				entityDropItem(new ItemStack(ModItems.manaResource, hard ? 16 : 8, 5), 1F);
 				boolean droppedRecord = false;
 
 				if(hard) {
 					entityDropItem(new ItemStack(ModItems.ancientWill, 1, rand.nextInt(6)), 1F);
 					if(ConfigHandler.relicsEnabled) {
 						ItemStack dice = new ItemStack(ModItems.dice);
-						ItemRelic.bindToUsernameS(playersWhoAttacked.get(pl), dice);
 						entityDropItem(dice, 1F);
 					}
 
@@ -556,7 +555,7 @@ public class EntityDoppleganger extends EntityCreature implements IBotaniaBossWi
 		List<EntityPlayer> players = getPlayersAround();
 		int playerCount = getPlayerCount();
 
-		if(worldObj.isRemote && !isPlayingMusic && !isDead && !players.isEmpty()) {
+		if(worldObj.isRemote && !isPlayingMusic && !isDead && !players.isEmpty() && ConfigHandler.gaiaMusicEnabled) {
 			Botania.proxy.playRecordClientSided(worldObj, source.posX, source.posY, source.posZ, (ItemRecord) (hard ? ModItems.recordGaia2 : ModItems.recordGaia1));
 			isPlayingMusic = true;
 		}

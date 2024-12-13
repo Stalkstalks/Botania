@@ -45,8 +45,9 @@ public class RegenIvyRecipe implements IRecipe {
 
 				if(tool != null && tool.getItem().getIsRepairable(tool, stack))
 					materialsFound++;
-
-				else if(stack != tool && item != ModItems.regenIvy)
+				else if(item == ModItems.regenIvy)
+					materialsFound++;
+				else if(stack != tool)
 					return false;
 			}
 		}
